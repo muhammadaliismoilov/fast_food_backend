@@ -4,7 +4,7 @@ import { Products } from "../Model/prodacts.model";
 import { ICreateCategory } from "../dto/create_category_dto";
 import { IUpdateCategory } from "../dto/update_category_dto";
 import { Op } from "sequelize";
-import sequelize from "sequelize";
+
 
 export const getAllCategorys = async (req:Request,res:Response,next:NextFunction) =>{
     try {

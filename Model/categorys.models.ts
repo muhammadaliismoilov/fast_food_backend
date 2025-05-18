@@ -7,6 +7,11 @@ export class Categorys extends Model {
 }
 Categorys.init(
     {
+        id: {
+            type: DataTypes.INTEGER,
+            autoIncrement: true,
+            primaryKey: true,
+        },
         category: {
             type: DataTypes.STRING,
             allowNull: false,

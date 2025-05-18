@@ -10,6 +10,11 @@ export class Products extends Model {
 }
 Products.init(
     {
+        id: {
+            type: DataTypes.INTEGER,
+            autoIncrement: true,
+            primaryKey: true,
+        },
         productName: {
             type: DataTypes.STRING,
             allowNull: false,
