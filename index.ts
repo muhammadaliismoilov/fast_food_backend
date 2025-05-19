@@ -4,6 +4,8 @@ import dotenv from "dotenv"
 import authRouter from "./routers/auth.routes"
 import productsRouter from "./routers/producte.routes"
 import categorysRouter from "./routers/category.routes"
+import brancheRouter from "./routers/branche.routes"
+import userRouter from "./routers/user.routes"
 import logger from "./utils/logger"
 
 const app =express()
@@ -15,7 +17,8 @@ const PORT = process.env.PORT || 3005
 app.use(authRouter)
 app.use(productsRouter)
 app.use(categorysRouter)
-
+app.use(brancheRouter)
+app.use(userRouter)
 
 app.use((req, res, next) => {
   res.status(404).json({

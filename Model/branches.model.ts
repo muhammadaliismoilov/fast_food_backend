@@ -3,8 +3,8 @@ import sequelize from '../config/db'
 
 export class Branches extends Model {
     public id!: number
-    public breanchename!: string
-    public breancheAround!: string
+    public brancheName!: string
+    public brancheAround!: string
     public workingTime!: string
     public location!: string
 }
@@ -15,11 +15,11 @@ Branches.init({
         autoIncrement: true,
         primaryKey: true,
     },
-    breanchename: {
+    brancheName: {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    breancheAround: {
+    brancheAround: {
         type: DataTypes.STRING,
         allowNull: false    
     },

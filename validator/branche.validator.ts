@@ -1,13 +1,13 @@
 import Joi from 'joi';
 export const branchValidationSchema = Joi.object({
-    breanchename: Joi.string().min(5).max(100).required().messages({
+    brancheName: Joi.string().min(5).max(100).required().messages({
             'string.base': 'Filial nomi matn bo`lishi kerak',
             'string.empty': 'Filial nomi bo`sh bo`lmasligi kerak',
             'string.min': 'Filial nomi 5 ta belgidan kam bolmasligi kerak',
             'string.max': 'Filial nomi 100 ta belgidan ko`p bolmasligi kerak',
             'any.required': 'Filial nomi kiritilishi shart'
         }),
-    breancheAround: Joi.string().min(5).max(300).required().messages({
+    brancheAround: Joi.string().min(5).max(300).required().messages({
             'string.base': 'Filial atrofidagi ma`lumot matn bo`lishi kerak',
             'string.empty': 'Filial atrofidagi ma`lumot bo`sh bo`lmasligi kerak',
             'string.min': 'Filial atrofidagi ma`lumot 5 ta belgidan kam bolmasligi kerak',

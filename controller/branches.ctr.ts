@@ -26,13 +26,13 @@ export const getOneBranche = async (req:Request,res:Response,next:NextFunction) 
 }
 export const searchBranche = async (req:Request,res:Response,next:NextFunction) =>{
     try {
-        const searchTerm = req.query.filial as string; 
+        const searchTerm = req.query.brancheName as string; 
         if (!searchTerm) {
             return res.status(400).json({ message: "Qidiruv so'zi kiritilmagan" });
         }
         const filial = await Branches.findAll({
             where: {
-                filial: {
+                brancheName: {
                     [Op.like]: `%${searchTerm}%`
                 }
             }
@@ -61,10 +61,10 @@ export const createBranche = async (req: Request, res: Response, next: NextFunct
 
 export const updateBranche= async (req:Request,res:Response,next:NextFunction) =>{
     try {
-        const {breanchename,breancheAround,workingTime,location} = req.body as IUpdateBranches
+        const {brancheName,brancheAround,workingTime,location} = req.body as IUpdateBranches
     const brancheId = await Branches.findByPk(+req.params.id as number)
     if (!brancheId) res.status(404).json({mesage:"Filial topilmadi"})
-        brancheId?.update({breanchename,breancheAround,workingTime,location})
+        brancheId?.update({brancheName,brancheAround,workingTime,location})
         res.status(200).json({message:"Filial ma`lumotlari yangilandi"})
     } catch (error:any) {
         next(error)

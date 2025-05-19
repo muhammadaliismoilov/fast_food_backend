@@ -1,7 +1,7 @@
 export interface ICreateBranches {
     id?: number
-    breanchename?: string
-    breancheAround?: string
+    brancheName?: string
+    brancheAround?: string
     workingTime?: string
     location?: string
 }

@@ -35,8 +35,9 @@ export const chekAdmin = async (req:Request,res:Response,next:NextFunction) =>{
         const ACCESS_SECRET_KEY: Secret = process.env.ACCESS_SECRET_KEY || "your_access_secret_key";
         const accesToken = authHeader.slice(7)
         const decode = jwt.verify(accesToken,ACCESS_SECRET_KEY) as CustomJwtPayload
-       if (!decode.role || decode.role !== "admin") {
-            return res.status(403).json({ message: "Sizda admin huquqlari yo'q" });
+       const Roles = ['admin', 'superadmin'];
+        if (!decode.role || !Roles.includes(decode.role)) {
+        return res.status(403).json({ message: 'Sizda admin huquqlari yo‘q' });
         }
     next();
     } catch (error:any) {

@@ -64,10 +64,10 @@ export const createProduct = async(req:Request,res:Response,next:NextFunction) =
 }
 export const updateProduct = async (req:Request,res:Response,next:NextFunction) =>{
     try {
-    const {productName,category,price,description} = req.body as IUpdateProduct
+    const {productName,/*productImg,*/category,price,description} = req.body as IUpdateProduct
     const product = await Products.findByPk(+req.params.id as number)
     if (!product) res.status(404).json({mesage:"Mahsulot topilmadi"})
-        product?.update({productName,category,price,description})
+        product?.update({productName,/*productImg,*/category,price,description})
         res.status(200).json({message:"Malumotlar yangilandi"})
     } catch (error:any) {
         next(error)

@@ -9,7 +9,7 @@ authRouter.post("/logout",logout as RequestHandler)
 
 authRouter.get("/get_admins",getAllAdmins as RequestHandler)
 authRouter.get("/get_one_admin/:id",getOneAdmin as RequestHandler)
-authRouter.post("/create_admin",chekSuperadmin as RequestHandler,validateAdmin,createAdmin as RequestHandler)
+authRouter.post("/create_admin",validateAdmin,createAdmin as RequestHandler)
 authRouter.put("/update_admin/:id",chekSuperadmin as RequestHandler, updateAdmin as RequestHandler)
 authRouter.delete("/delete_admin/:id",chekSuperadmin as RequestHandler,deleteAdmin as RequestHandler)
 
