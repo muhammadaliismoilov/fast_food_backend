@@ -2,7 +2,8 @@ import {Request,Response, NextFunction } from "express";
 import { Admins } from "../Model/auth.model";
 import bcryptjs from "bcryptjs"
 import { AccessToken, RefreshToken } from "../utils/token.generate";
-
+import { ICreateAuth } from "../dto/create_auth_dto";
+import { IUpdateAuth } from "../dto/update_auth_dto";
 export const login = async (req:Request,res:Response,next:NextFunction) =>{
     try { 
         const {login,password} = req.body
@@ -55,7 +56,6 @@ export const logout = async (req:Request,res:Response,next:NextFunction) =>{
     }
 }
 
-
 export const getAllAdmins = async (req:Request,res:Response,next:NextFunction) =>{
     try {
     const findAll = await Admins.findAll()
@@ -85,7 +85,7 @@ export const createAdmin = async (req:Request,res:Response,next:NextFunction) =>
             login,
             password:hashed,
             role:"admin"
-        })
+        }) as ICreateAuth
         return res.status(201).json({message:"Admin qo`shildi",newAdmin})
 
     } catch (error:any) {
@@ -95,7 +95,7 @@ export const createAdmin = async (req:Request,res:Response,next:NextFunction) =>
 
 export const updateAdmin = async (req:Request,res:Response,next:NextFunction) =>{
     try {
-        const { login, password } = req.body;
+        const { login, password } = req.body as IUpdateAuth
         const findAdmin = await Admins.findByPk(+req.params.id);
         if (!findAdmin) return res.status(404).json({ message: "Admin topilmadi" });
         const updates: { login?: string; hashed?: string } = {};

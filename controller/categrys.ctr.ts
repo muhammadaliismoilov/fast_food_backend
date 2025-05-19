@@ -66,7 +66,7 @@ export const createCategory = async (req: Request, res: Response, next: NextFunc
             return res.status(400).json({ message: "Bu kategoriya bazada mavjud" });
         }
         const category = await Categorys.create(req.body) as ICreateCategory;
-        res.status(200).json(category);
+        res.status(200).json({message:"Yangi categorya qo`shildi",category});
     } catch (error: any) {
         next(error);
     }

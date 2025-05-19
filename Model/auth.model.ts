@@ -2,10 +2,10 @@ import { DataTypes, Model } from 'sequelize'
 import sequelize from '../config/db'
 
 export class Admins extends Model {
+    public id!: number
     public login!: string
     public password!: string
     public role!: "admin" | "superadmin"
-    id: any
 }
 
 Admins.init({

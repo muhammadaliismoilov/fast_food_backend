@@ -52,12 +52,12 @@ export const searchProduct = async (req:Request,res:Response,next:NextFunction) 
 
 export const createProduct = async(req:Request,res:Response,next:NextFunction) =>{
     try {
-        const categorya = await Categorys.findOne({where:{category: req.body.category }});
-        if (!categorya) {
+        const found = await Categorys.findOne({where:{category: req.body.category }});
+        if (!found) {
             return res.status(400).json({ message: "Bu kategoriya bazada mavjud emas!" });
         }
-        const category = await Products.create(req.body) as ICreateProduct
-        res.status(200).json(category);
+        const product = await Products.create(req.body) as ICreateProduct
+        res.status(200).json({message:"Yangi mahsulot qo`shildi",product});
     } catch (error: any) {
         next(error);
     }

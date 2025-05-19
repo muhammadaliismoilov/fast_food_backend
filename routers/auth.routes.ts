@@ -7,10 +7,10 @@ const authRouter = Router()
 authRouter.post("/login",login as RequestHandler)
 authRouter.post("/logout",logout as RequestHandler)
 
-authRouter.get("/get_admins",chekAdmin as RequestHandler ,getAllAdmins as RequestHandler)
+authRouter.get("/get_admins",getAllAdmins as RequestHandler)
 authRouter.get("/get_one_admin/:id",getOneAdmin as RequestHandler)
 authRouter.post("/create_admin",chekSuperadmin as RequestHandler,validateAdmin,createAdmin as RequestHandler)
-authRouter.put("/update_admin/:id", updateAdmin as RequestHandler)
-authRouter.delete("/delete_admin/:id",deleteAdmin as RequestHandler)
+authRouter.put("/update_admin/:id",chekSuperadmin as RequestHandler, updateAdmin as RequestHandler)
+authRouter.delete("/delete_admin/:id",chekSuperadmin as RequestHandler,deleteAdmin as RequestHandler)
 
 export default authRouter
