@@ -6,7 +6,7 @@ import productsRouter from "./routers/producte.routes"
 import categorysRouter from "./routers/category.routes"
 import logger from "./utils/logger"
 
-const  app =express()
+const app =express()
 app.use(cors({credentials:true,origin:"*"}))
 app.use(express.json())
 dotenv.config()

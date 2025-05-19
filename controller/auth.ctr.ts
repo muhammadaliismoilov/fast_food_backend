@@ -1,6 +1,60 @@
 import {Request,Response, NextFunction } from "express";
 import { Admins } from "../Model/auth.model";
 import bcryptjs from "bcryptjs"
+import { AccessToken, RefreshToken } from "../utils/token.generate";
+
+export const login = async (req:Request,res:Response,next:NextFunction) =>{
+    try { 
+        const {login,password} = req.body
+        if (!login || !password) {
+        return res.status(400).json({message:"login va parol yuborilishi kerak!"})
+       }
+    const found = await Admins.findOne({where:{login}})
+    if(!found) return res.status(401).json({message:"Topilmadi"})
+    const decode =  await bcryptjs.compare(password, found.password)
+    if(!decode) return res.status(401).json({message:"Login yoki parol xato!"})
+    const payload = {
+      id: found.id,
+      login: found.login,
+      role: found.role
+    }
+    const access = AccessToken(payload);
+    const refresh = RefreshToken(payload);
+    res.cookie("accessToken", access, {
+      httpOnly: true,
+      maxAge: 30 * 60 * 1000,
+    });
+    res.cookie("refreshToken", refresh, {
+      httpOnly: true,
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+    return res.status(200).json({message:"Tizimga muvaffaqiyatli kirdingiz",access})
+    } catch (error:any) {
+        next(error)
+    }
+}
+
+export const logout = async (req:Request,res:Response,next:NextFunction) =>{
+    try { 
+       const { login } = req.body;
+    if (!login) {
+      return res.status(400).json({ message: "Email kerak!" });
+    }
+
+    const found = await Admins.findOne({where:{login}});
+    if (!found) {
+      return res.status(404).json({ message: "Foydalanuvchi topilmadi!" });
+    }
+    res.clearCookie("accessToken", { httpOnly: true });
+    res.clearCookie("refreshToken", { httpOnly: true });
+    return res.status(200).json({
+      message: "Tizimdan muvaffaqiyatli chiqdingiz!",
+    });
+    } catch (error:any) {
+        next(error)
+    }
+}
+
 
 export const getAllAdmins = async (req:Request,res:Response,next:NextFunction) =>{
     try {
@@ -68,6 +122,7 @@ export const deleteAdmin = async (req:Request,res:Response,next:NextFunction) =>
         next(error)
     }
 }
+
 
 
 
