@@ -4,16 +4,18 @@ import bcryptjs from "bcryptjs"
 import { AccessToken, RefreshToken } from "../utils/token.generate";
 import { ICreateAuth } from "../dto/create_auth_dto";
 import { IUpdateAuth } from "../dto/update_auth_dto";
+import BaseError from "../utils/base.error";
+
 export const login = async (req:Request,res:Response,next:NextFunction) =>{
     try { 
         const {login,password} = req.body
         if (!login || !password) {
-        return res.status(400).json({message:"login va parol yuborilishi kerak!"})
+         throw BaseError.BadRequest(400, 'Login va parol yuborilishi kerak!');
        }
     const found = await Admins.findOne({where:{login}})
-    if(!found) return res.status(401).json({message:"Topilmadi"})
+    if(!found) throw BaseError.Unauthorized(401, 'Foydalanuvchi topilmadi');
     const decode =  await bcryptjs.compare(password, found.password)
-    if(!decode) return res.status(401).json({message:"Login yoki parol xato!"})
+    if(!decode) throw BaseError.Unauthorized(401, 'Login yoki parol xato!');
     const payload = {
       id: found.id,
       login: found.login,
@@ -29,9 +31,9 @@ export const login = async (req:Request,res:Response,next:NextFunction) =>{
       httpOnly: true,
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
-    return res.status(200).json({message:"Tizimga muvaffaqiyatli kirdingiz",access})
+    return res.status(200).json({message:"Tizimga muvaffaqiyatli kirdingiz",found,access})
     } catch (error:any) {
-        next(error)
+        next(error instanceof BaseError ? error : BaseError.BadRequest(500, 'Ichki server xatosi', error.message));
     }
 }
 
@@ -39,12 +41,12 @@ export const logout = async (req:Request,res:Response,next:NextFunction) =>{
     try { 
        const { login } = req.body;
     if (!login) {
-      return res.status(400).json({ message: "Email kerak!" });
+      throw BaseError.BadRequest(400, 'Login kerak!');
     }
 
     const found = await Admins.findOne({where:{login}});
     if (!found) {
-      return res.status(404).json({ message: "Foydalanuvchi topilmadi!" });
+      throw BaseError.BadRequest(404, 'Foydalanuvchi topilmadi!');
     }
     res.clearCookie("accessToken", { httpOnly: true });
     res.clearCookie("refreshToken", { httpOnly: true });
@@ -52,7 +54,7 @@ export const logout = async (req:Request,res:Response,next:NextFunction) =>{
       message: "Tizimdan muvaffaqiyatli chiqdingiz!",
     });
     } catch (error:any) {
-        next(error)
+        next(error instanceof BaseError ? error : BaseError.BadRequest(500, 'Ichki server xatosi', error.message));
     }
 }
 
@@ -61,25 +63,28 @@ export const getAllAdmins = async (req:Request,res:Response,next:NextFunction) =
     const findAll = await Admins.findAll()
         return res.status(200).json(findAll)
     } catch (error:any) {
-        next(error)
+        next(error instanceof BaseError ? error : BaseError.BadRequest(500, 'Ichki server xatosi', error.message));
     }
 }
 
 export const getOneAdmin = async (req:Request,res:Response,next:NextFunction) =>{
     try {
     const findAdmin = await Admins.findByPk(+req.params.id as number)
-    if (!findAdmin) res.status(404).json({mesage:"Admin topilmadi"})
+    if (!findAdmin) throw BaseError.Unauthorized(404, 'Admin topilmadi');
         return res.status(200).json(findAdmin)
     } catch (error:any) {
-        next(error)
+        next(error instanceof BaseError ? error : BaseError.BadRequest(500, 'Ichki server xatosi', error.message));
     }
 }
 
 export const createAdmin = async (req:Request,res:Response,next:NextFunction) =>{
     try {
         const {login,password} = req.body
+        if (!login || !password) {
+        throw BaseError.BadRequest(400, 'Login va parol yuborilishi kerak!');
+        }
         const findLogin = await Admins.findOne({where:{login: req.body.login}})
-        if (findLogin) return res.status(400).json({message:"Login bazada mavjud"})
+        if (findLogin) throw BaseError.BadRequest(400, 'Login bazada mavjud');
         const hashed = await bcryptjs.hash(password,10)
         const newAdmin = await Admins.create({
             login,
@@ -89,7 +94,7 @@ export const createAdmin = async (req:Request,res:Response,next:NextFunction) =>
         return res.status(201).json({message:"Admin qo`shildi",newAdmin})
 
     } catch (error:any) {
-        next(error)
+        next(error instanceof BaseError ? error : BaseError.BadRequest(500, 'Ichki server xatosi', error.message));
     }
 }
 
@@ -97,29 +102,29 @@ export const updateAdmin = async (req:Request,res:Response,next:NextFunction) =>
     try {
         const { login, password } = req.body as IUpdateAuth
         const findAdmin = await Admins.findByPk(+req.params.id);
-        if (!findAdmin) return res.status(404).json({ message: "Admin topilmadi" });
+        if (!findAdmin) throw BaseError.Unauthorized(404, 'Admin topilmadi');
         const updates: { login?: string; hashed?: string } = {};
         if (login) updates.login = login;
         if (password) {
             const hashed = await bcryptjs.hash(password, 10);
             updates.hashed = hashed; 
         }
-        if (!login && !password) return res.status(400).json({ message: "Hech qanday ma'lumot kiritilmadi" });
+        if (!login && !password) throw BaseError.BadRequest(400, "Hech qanday ma'lumot kiritilmadi");
         await findAdmin.update(updates);
         return res.status(200).json({ message: "Admin ma'lumotlari yangilandi", admin: findAdmin });
     } catch (error:any) {
-        next(error)
+        next(error instanceof BaseError ? error : BaseError.BadRequest(500, 'Ichki server xatosi', error.message));
     }
 }
 
 export const deleteAdmin = async (req:Request,res:Response,next:NextFunction) =>{
     try {
     const findAdmin = await Admins.findByPk(+req.params.id as number)
-    if (!findAdmin) res.status(404).json({mesage:"Admin topilmadi"})
+    if (!findAdmin) throw BaseError.Unauthorized(404, 'Admin topilmadi');
     findAdmin?.destroy()
         return res.status(200).json({message:"Admin muvoffaqiyatli o`chirildi"})
     } catch (error:any) {
-        next(error)
+        next(error instanceof BaseError ? error : BaseError.BadRequest(500, 'Ichki server xatosi', error.message));
     }
 }
 

@@ -1,5 +1,5 @@
 import { RequestHandler, Router } from "express";
-import { createCategory, deleteCategory, getAllCategorys, getOneCategory, searchCategory, updateCategory } from "../controller/categrys.ctr";
+import { createCategory, deleteCategory, getAllCategorys, getOneCategory, searchCategory, updateCategory } from "../controller/categorys.ctr";
 import { validateCategory } from "../middleware/categorys.middleware";
 import { chekAdmin,chekSuperadmin} from "../middleware/chekAdmin";
 const categorysRouter = Router()

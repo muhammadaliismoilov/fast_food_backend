@@ -14,11 +14,11 @@ export const productSchema = Joi.object({
     //   "string.max": "Mahsulot rasmi 500 belgidan oshmasligi kerak",
     //   "any.required": "Mahsulot rasmi kiritilishi shart",
     // }),
-  category: Joi.string().min(2) .max(50) .required() .messages({
-      "string.empty": "Kategoriya bo'sh bo'lmasligi kerak",
-      "string.base":"Kategoriya stringda kiritilishi kerak!",
-      "string.min": "Kategoriya kamida 2 belgidan iborat bo'lishi kerak",
-      "string.max": "Kategoriya 50 belgidan oshmasligi kerak",
+  categoryId: Joi.number() .required() .messages({
+      "number.empty": "Kategoriya bo'sh bo'lmasligi kerak",           /*joi.string().min.mac edi ozgartriildi*/ 
+      "number.base":"Kategoriya numberda kiritilishi kerak!",
+      // "number.min": "Kategoriya kamida 2 belgidan iborat bo'lishi kerak",
+      // "number.max": "Kategoriya 50 belgidan oshmasligi kerak",
       "any.required": "Kategoriya kiritilishi shart",
     }),
   price: Joi.number().greater(0) .required() .messages({

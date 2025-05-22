@@ -9,7 +9,7 @@ userRouter.get("/get_users",getAllUsers as RequestHandler)
 userRouter.get("/get_one_user/:id",getOneUser as RequestHandler)
 userRouter.get("/search_user",searchUser as RequestHandler)
 userRouter.post("/create_user",validateUser as RequestHandler,createUser as RequestHandler)
-userRouter.put("/update_user",updateUser as RequestHandler)
-userRouter.delete("/delete_user",deleteUser as RequestHandler)
+userRouter.put("/update_user/:id",updateUser as RequestHandler)
+userRouter.delete("/delete_user/:id",deleteUser as RequestHandler)
 
 export default userRouter
