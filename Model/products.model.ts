@@ -1,5 +1,6 @@
 import { Model, DataTypes } from "sequelize";
 import { Categorys } from "./categorys.models";
+import { Order } from "./orders.model";
 import sequelize from "../config/db";
 
 export class Products extends Model {
@@ -52,6 +53,7 @@ Products.init(
         timestamps: true,
     }
 );
+//category foregin key
 Categorys.hasMany(Products, {
     foreignKey: 'categoryId', // Products jadvalidagi category maydoni
     as: 'products', // Assotsiatsiya nomi
@@ -60,6 +62,16 @@ Products.belongsTo(Categorys, {
     foreignKey: 'categoryId', // Products jadvalidagi category maydoni
     as: 'category', // Assotsiatsiya nomi
 });
+//order foregin key
+Order.hasMany(Products, {
+    foreignKey: 'productId', // Products jadvalidagi category maydoni
+    as: 'orderProduct', // Assotsiatsiya nomi
+});
+Products.belongsTo(Order, {
+    foreignKey: 'productId', // Products jadvalidagi category maydoni
+    as: 'products', // Assotsiatsiya nomi
+});
+
 
 
 

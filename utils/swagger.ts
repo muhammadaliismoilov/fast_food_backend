@@ -6,7 +6,7 @@ const swaggerOptions: swaggerJSDoc.Options = {
   definition: {
     openapi: '3.0.0',
     info: {
-      title: 'Fast nFood ',
+      title: 'Fast Food ',
       version: '1.0.0',
       description: 'Fast Food loyihasi uchun API hujjati',
     },

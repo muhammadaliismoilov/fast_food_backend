@@ -1,5 +1,6 @@
 import { Model, DataTypes } from "sequelize";
 import sequelize from "../config/db";
+import { Order } from "./orders.model";
 
 export class Categorys extends Model {
     public id!: number;
@@ -25,3 +26,11 @@ Categorys.init(
         timestamps: true,
     }
 );
+Order.hasMany(Categorys, {
+    foreignKey: 'categoryId', // Products jadvalidagi category maydoni
+    as: 'orderCategory', // Assotsiatsiya nomi
+});
+Categorys.belongsTo(Order, {
+    foreignKey: 'categoryId', // Products jadvalidagi category maydoni
+    as: 'categorye', // Assotsiatsiya nomi
+});

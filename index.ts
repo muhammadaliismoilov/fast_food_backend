@@ -10,6 +10,7 @@ import reportsRouter from "./routers/report.routes"
 import errorMiddleware from "./middleware/error.middleware"
 import logger from "./utils/logger"
 import { SwaggerUiOptions } from "swagger-ui-express"
+import ordersRouter from "./routers/order.routes"
 import swaggerSpec from "./utils/swagger"
 import SwaggerUIExpress from "swagger-ui-express"
 
@@ -25,6 +26,7 @@ app.use(categorysRouter)
 app.use(brancheRouter)
 app.use(userRouter)
 app.use(reportsRouter)
+app.use(ordersRouter)
 app.use(`/api-docs`,SwaggerUIExpress.serve,SwaggerUIExpress.setup(swaggerSpec))
 
 

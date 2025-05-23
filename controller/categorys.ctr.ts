@@ -5,8 +5,6 @@ import { ICreateCategory } from "../dto/create_category_dto";
 import { IUpdateCategory } from "../dto/update_category_dto";
 import { Op } from "sequelize";
 import BaseError from "../utils/base.error";
-import { any } from "joi";
-
 
 export const getAllCategorys = async (req:Request,res:Response,next:NextFunction) =>{
     try {
@@ -23,7 +21,7 @@ export const getOneCategory = async (req:Request,res:Response,next:NextFunction)
       include: [
         {
           model: Products,
-          as: "products", // To‘g‘ri alias
+          as: "products", 
         },
       ],
     });

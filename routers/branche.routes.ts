@@ -7,7 +7,7 @@ const brancheRouter = Router()
 
 /**
  * @swagger
- * /branches:
+ * /get_branches:
  *   get:
  *     summary: Barcha filiallar ro‘yxatini olish
  *     description: Tizimdagi barcha filiallar ro‘yxatini qaytaradi.
@@ -63,7 +63,7 @@ brancheRouter.get("/get_branches",getAllBranches as RequestHandler)
 
 /**
  * @swagger
- * /branches/{id}:
+ * /get_one_branche/{id}:
  *   get:
  *     summary: Bitta filialni olish
  *     description: Berilgan ID orqali ma'lum bir filial haqida ma'lumot qaytaradi.
@@ -138,7 +138,7 @@ brancheRouter.get("/get_one_branche/:id",getOneBranche as RequestHandler)
 
 /**
  * @swagger
- * /branches/search:
+ * /search_branche/search:
  *   get:
  *     summary: Filialni nomi bo‘yicha qidirish
  *     description: Filial nomiga ko‘ra qidiruv amalga oshiradi (qisman moslik).
@@ -228,7 +228,7 @@ brancheRouter.get("/search_branche",searchBranche as RequestHandler)
 
 /**
  * @swagger
- * /branches:
+ * /create_branche:
  *   post:
  *     summary: Yangi filial qo‘shish
  *     description: Yangi filial yaratadi, agar filial nomi allaqachon mavjud bo‘lsa xato qaytaradi.
@@ -326,7 +326,7 @@ brancheRouter.post("/create_branche",chekAdmin as RequestHandler,validateBranche
 
 /**
  * @swagger
- * /branches/{id}:
+ * /update_branche/{id}:
  *   put:
  *     summary: Filial ma'lumotlarini yangilash
  *     description: Berilgan ID orqali filial ma'lumotlarini yangilaydi.
@@ -407,7 +407,7 @@ brancheRouter.put("/update_branche/:id",chekAdmin as RequestHandler,updateBranch
 
 /**
  * @swagger
- * /branches/{id}:
+ * /delete_branche/{id}:
  *   delete:
  *     summary: Filialni o‘chirish
  *     description: Berilgan ID orqali filialni tizimdan o‘chiradi.

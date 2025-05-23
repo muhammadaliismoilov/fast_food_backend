@@ -25,6 +25,46 @@ export const getOneProduct = async (req:Request,res:Response,next:NextFunction) 
     }
 }
 
+export const filterProducts = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const sortBy = req.query.sortBy as string;
+
+    // Tartiblash turini tekshirish
+    if (!sortBy) {
+      throw new BaseError(400, "Tartiblash turi kiritilmadi");
+    }
+
+    const validSortOptions = ['price_asc', 'price_desc', 'name_asc', 'name_desc'];
+    if (!validSortOptions.includes(sortBy)) {
+      throw new BaseError(400, "Noto‘g‘ri tartiblash turi kiritildi");
+    }
+
+    // Tartiblash shartlarini aniqlash
+    let order: [string, string][] = [];
+    if (sortBy === 'price_asc') {
+      order = [['price', 'ASC']];
+    } else if (sortBy === 'price_desc') {
+      order = [['price', 'DESC']];
+    } else if (sortBy === 'name_asc') {
+      order = [['productName', 'ASC']];
+    } else if (sortBy === 'name_desc') {
+      order = [['productName', 'DESC']];
+    }
+
+    // Mahsulotlarni filtrlab olish
+    const products = await Products.findAll({
+      order: order,
+    });
+
+    if (!products || products.length === 0) {
+      throw new BaseError(404, "Mahsulotlar topilmadi");
+    }
+
+    res.status(200).json(products);
+  } catch (error: any) {
+    next(error instanceof BaseError ? error : new BaseError(500, 'Ichki server xatosi', error.message));
+  }
+};
 export const searchProduct = async (req:Request,res:Response,next:NextFunction) =>{
     try {
         const searchTerm = req.query.productName as string; 

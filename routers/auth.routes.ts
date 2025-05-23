@@ -188,7 +188,7 @@ authRouter.post("/logout",logout as RequestHandler)
 
 /**
  * @swagger
- * /admins:
+ * /get_admins:
  *   get:
  *     summary: Barcha adminlarni olish
  *     description: Tizimdagi barcha adminlar ro‘yxatini qaytaradi.
@@ -236,7 +236,7 @@ authRouter.get("/get_admins",getAllAdmins as RequestHandler)
 
 /**
  * @swagger
- * /admins/{id}:
+ * /get_one_admin/{id}:
  *   get:
  *     summary: Bitta adminni olish
  *     description: Berilgan ID orqali tizimdagi ma'lum bir admin haqida ma'lumot qaytaradi.
@@ -303,7 +303,7 @@ authRouter.get("/get_one_admin/:id",getOneAdmin as RequestHandler)
 
 /**
  * @swagger
- * /admins:
+ * /create_admin:
  *   post:
  *     summary: Yangi admin qo‘shish
  *     description: Yangi admin yaratadi, login va parolni qabul qiladi, parol hashlanadi va admin ro‘yxatga qo‘shiladi.
@@ -386,7 +386,7 @@ authRouter.post("/create_admin",validateAdmin,createAdmin as RequestHandler)
 
 /**
  * @swagger
- * /admins/{id}:
+ * /update_admin/{id}:
  *   put:
  *     summary: Admin ma'lumotlarini yangilash
  *     description: Berilgan ID orqali adminning login yoki parolini yangilaydi. Parol hashlanadi.
@@ -487,7 +487,7 @@ authRouter.put("/update_admin/:id",chekSuperadmin as RequestHandler, updateAdmin
 
 /**
  * @swagger
- * /admins/{id}:
+ * /delete_admin/{id}:
  *   delete:
  *     summary: Adminni o‘chirish
  *     description: Berilgan ID orqali adminni tizimdan o‘chiradi.

@@ -1,5 +1,6 @@
 import { DataTypes, Model } from 'sequelize'
 import sequelize from '../config/db'
+import { Order } from './orders.model'
 
 export class Users extends Model {
     public id!: number
@@ -36,6 +37,14 @@ Users.init({
 }, {
     sequelize,
     modelName: "User",
-    tableName: "Users",
+    tableName: "users",
     timestamps: true
 })
+Order.hasMany(Users, {
+    foreignKey: 'userId', // Products jadvalidagi category maydoni
+    as: 'orderUser', // Assotsiatsiya nomi
+});
+Users.belongsTo(Order, {
+    foreignKey: 'userId', // Products jadvalidagi category maydoni
+    as: 'Users', // Assotsiatsiya nomi
+});
